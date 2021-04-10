@@ -32,6 +32,28 @@ export default function App() {
   }, [])
 
 
+  //handling action on notification(in background and foreground)
+  useEffect(() => {
+    // action when notification received while  app is closed
+    const BackGroundNotificationSubscription = Notifications.addNotificationResponseReceivedListener((data) => {
+      console.log("data")
+      console.log(data)
+      console.log("data")
+    });
+
+    // action when notification received while running app
+    const notificationSubscription = Notifications.addNotificationReceivedListener((data) => {
+      console.log("data")
+      console.log(data)
+      console.log("data")
+    });
+    return () => {
+      notificationSubscription.remove();
+      BackGroundNotificationSubscription.remove();
+    }
+  }, [])
+
+
   const triggerNotifications = async () => {
     await Notifications.scheduleNotificationAsync({
       content: {
